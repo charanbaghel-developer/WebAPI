@@ -6,13 +6,13 @@ EXPOSE 8080
 # Build image
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["YourProjectName.csproj", "./"]
-RUN dotnet restore "./YourProjectName.csproj"
+COPY ["TestAPI.csproj", "./"]
+RUN dotnet restore "./TestAPI.csproj"
 COPY . .
-RUN dotnet publish "YourProjectName.csproj" -c Release -o /app/publish
+RUN dotnet publish "TestAPI.csproj" -c Release -o /app/publish
 
 # Final image
 FROM base AS final
 WORKDIR /app
 COPY --from=build /app/publish .
-ENTRYPOINT ["dotnet", "YourProjectName.dll"]
+ENTRYPOINT ["dotnet", "TestAPI.dll"]
