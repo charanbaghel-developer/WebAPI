@@ -24,7 +24,7 @@ namespace TestAPI.Controllers
             return Ok(_members.GetAllMember());
         }
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult GetHello()
         {
             return Ok("Hello");
         }
