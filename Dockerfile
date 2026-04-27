@@ -9,7 +9,7 @@ WORKDIR /src
 
 # Copy csproj and restore
 COPY ["TestAPI/TestAPI.csproj", "TestAPI/"]
-RUN dotnet restore "./TestAPI.csproj"
+RUN dotnet restore "TestAPI/TestAPI.csproj"
 
 # Copy everything else
 COPY . .
