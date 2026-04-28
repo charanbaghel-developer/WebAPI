@@ -36,11 +36,8 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Swagger
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 // ❌ REMOVE THIS (important for Render)
 // app.UseHttpsRedirection();
