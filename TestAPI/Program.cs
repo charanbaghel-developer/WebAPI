@@ -5,45 +5,52 @@ using TestAPI.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
+// Controllers
 builder.Services.AddControllers();
+
+// DB
 var cc = builder.Configuration.GetConnectionString("DevConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    //the change occurs here.
-    //builder.cofiguration and not just configuration
     options.UseSqlServer(cc);
 });
+
+// CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp",
         policy =>
         {
-            policy
-                .WithOrigins("http://localhost:3000")
-                .AllowAnyHeader()
-                .AllowAnyMethod();
+            policy.WithOrigins("http://localhost:3000")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
         });
 });
+
 builder.Services.AddScoped<IMembers, MembersRepository>();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-// Configure the HTTP request pipeline.
+
+// Swagger
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-app.UseCors("AllowReactApp"); // ? MUST be before MapControllers
+// ❌ REMOVE THIS (important for Render)
+// app.UseHttpsRedirection();
+
+app.UseCors("AllowReactApp");
+
 app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+// ✅ IMPORTANT FOR RENDER PORT
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+app.Run($"http://0.0.0.0:{port}");
