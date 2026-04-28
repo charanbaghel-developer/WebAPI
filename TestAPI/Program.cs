@@ -50,7 +50,8 @@ app.UseCors("AllowReactApp");
 app.UseAuthorization();
 
 app.MapControllers();
-
+// ✅ ADD ROOT ROUTE
+app.MapGet("/", () => "WebAPI is running successfully");
 // ✅ IMPORTANT FOR RENDER PORT
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 app.Run($"http://0.0.0.0:{port}");
