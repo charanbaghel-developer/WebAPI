@@ -23,7 +23,7 @@ namespace TestAPI.Controllers
         {
             return Ok(_members.GetAllMember());
         }
-        [HttpGet]
+        [HttpGet("GetHello")]
         public IActionResult GetHello()
         {
             return Ok("Hello");
