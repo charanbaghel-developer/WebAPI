@@ -7,20 +7,21 @@ EXPOSE 8080
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy csproj and restore
-COPY ["TestAPI/TestAPI.csproj", "TestAPI/"]
-RUN dotnet restore "TestAPI/TestAPI.csproj"
+# Copy csproj
+COPY TestAPI/TestAPI.csproj TestAPI/
 
-# Copy everything else
+# Restore
+RUN dotnet restore TestAPI/TestAPI.csproj
+
+# Copy full source
 COPY . .
 
-# Publish app
-RUN dotnet publish "TestAPI.csproj" -c Release -o /app/publish
+# Publish (FIXED PATH)
+RUN dotnet publish TestAPI/TestAPI.csproj -c Release -o /app/publish
 
 # Final image
 FROM base AS final
 WORKDIR /app
 COPY --from=build /app/publish .
 
-# Start app
 ENTRYPOINT ["dotnet", "TestAPI.dll"]
