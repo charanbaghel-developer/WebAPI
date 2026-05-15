@@ -23,6 +23,11 @@ namespace TestAPI.Controllers
         {
             return Ok(_members.GetAllMember());
         }
+         [HttpGet("GetAllSubject")]
+        public IActionResult GetAllSubject()
+        {
+            return Ok(_members.GetAllSubject());
+        }
         [HttpGet("GetHello")]
         public IActionResult GetHello()
         {
